@@ -1,0 +1,25 @@
+{
+  "name": "analytics",
+  "version": "0.0.0",
+  "description": "This module requests the statistics of the mining cluster via http, analyses the performance and distributes the benefits equally among the users according to the percentage of their investement.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drfoliberg/StrangeLove"
+  },
+  "keywords": [
+    "litecoin"
+  ],
+  "author": "Félix Leblanc",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/drfoliberg/StrangeLove/issues"
+  },
+  "dependencies": {
+    "coffee-script": "~1.7.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-coffee": "~0.8.2",
+    "matchdep": "~0.3.0"
+  }
+}
