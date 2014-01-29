@@ -19,10 +19,15 @@ module.exports = function(grunt){
 	  src:['src/models/*.coffee']
 	}
       }
+    },
+    watch:{
+      models:{
+        files:'src/models/*.coffee',
+	tasks:['coffeelint:models', 'coffee:models']
+      }
     }
   });
 
-  grunt.registerTask('compile', ['coffeelint:models','coffee:models']);
-  grunt.registerTask('lint', ['coffeelint:models']);
+  grunt.registerTask('compile', ['watch:models']);
 
 };
