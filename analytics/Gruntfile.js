@@ -12,8 +12,17 @@ module.exports = function(grunt){
 	  ext:'.js'
 	}]
       }
+    },
+    coffeelint:{
+      models:{
+        files:{
+	  src:['src/models/*.coffee']
+	}
+      }
     }
   });
 
   grunt.registerTask('compile', ['coffee:models']);
+  grunt.registerTask('lint', ['coffeelint:models']);
+
 };
