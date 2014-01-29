@@ -22,7 +22,7 @@ module.exports = function(grunt){
     }
   });
 
-  grunt.registerTask('compile', ['coffee:models']);
+  grunt.registerTask('compile', ['coffeelint:models','coffee:models']);
   grunt.registerTask('lint', ['coffeelint:models']);
 
 };
