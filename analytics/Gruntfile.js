@@ -1,5 +1,6 @@
 module.exports = function(grunt){
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  require('time-grunt')(grunt);
 
   grunt.initConfig({
     coffee:{
