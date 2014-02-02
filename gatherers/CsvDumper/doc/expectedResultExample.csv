@@ -1,0 +1,3 @@
+time;currentHashRate;realMhAverage;rejectedRatio;temperature;fanRPM;fanPercent;intensity;utility;hwErrors;gpuVoltage;gpuClock;memClock
+2014-02-02 03:12:28.906819;470.0;466.868168234;1.8814;63.0;2428;66;18;3.17;0;1.206;1120;1500
+2014-02-02 03:14:04.422878;470.0;466.849714079;1.8688;62.0;2442;66;18;3.17;0;1.206;1120;1500
