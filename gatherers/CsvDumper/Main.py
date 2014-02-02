@@ -1,7 +1,7 @@
 # author Justin Duplessis 2014
 # Simple script to store local sgminer/cgminer data into csv.
 # This script will run with cron each 5minutes until the real daemon is completed.
-__version__ = "v0.1.0"
+__version__ = "v0.1.1"
 
 import os.path
 import socket
@@ -58,12 +58,14 @@ def dump(device):
     fanRPM = device[Keys.FAN_RPM]
     fanPercent = device[Keys.FAN_PERCENT]
     hwErrors = device[Keys.HW_ERRORS]
-    rejectedRatio = device[Keys.REJECTED]
+    rejectedRatio = device[Keys.REJECTED_RATIO]
     currentHashRate = float(device[Keys.CURRENT_HASH_RATE]) * 1000  # rate is given in gh/s with sgminer
     totalMH = float(device[Keys.TOTAL_MH]) * 1000  # rate is given in gh/s with sgminer
     intensity = device[Keys.INTENSITY]
     utility = device[Keys.UTILITY]
     elapsed = device[Keys.ELAPSED]
+    accepted = device[Keys.ACCEPTED]
+    rejected = device[Keys.REJECTED]
     realMhAverage = float(totalMH) / float(elapsed)
     time = datetime.datetime.now()
 
@@ -72,11 +74,11 @@ def dump(device):
     if not os.path.isfile(filePath):
         csvWriter = csv.writer(open(filePath, 'wb'), delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         csvWriter.writerow(["time", "currentHashRate", "realMhAverage", "rejectedRatio", "temperature", "fanRPM",
-            "fanPercent", "intensity", "utility", "hwErrors", "gpuVoltage", "gpuClock", "memClock"])
+            "fanPercent", "intensity", "utility", "hwErrors", "gpuVoltage", "gpuClock", "memClock", "accepted", "rejected"])
     # append line
     csvWriter = csv.writer(open(filePath, 'a'), delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
     csvWriter.writerow([time, currentHashRate, realMhAverage, rejectedRatio, temperature, fanRPM, fanPercent,
-         intensity, utility, hwErrors, gpuVoltage, gpuClock, memClock])
+         intensity, utility, hwErrors, gpuVoltage, gpuClock, memClock, accepted, rejected])
 
 
 def main():

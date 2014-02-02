@@ -10,7 +10,9 @@ class Keys():
     FAN_PERCENT = "Fan Percent"
 
     HW_ERRORS = "Hardware Errors"
-    REJECTED = "Device Rejected%"
+    REJECTED_RATIO = "Device Rejected%"
+    REJECTED = "Rejected"
+    ACCEPTED = "Accepted"
 
     CURRENT_HASH_RATE = "MHS 5s"
     TOTAL_MH = "Total MH"
