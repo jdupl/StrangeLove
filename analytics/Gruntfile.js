@@ -44,9 +44,18 @@ module.exports = function(grunt){
     concurrent:{
       coffeelint:['coffeelint:models', 'coffeelint:tests'],
       compile:['coffee:models', 'coffee:tests']
+    },
+    docco:{
+      src:{
+        src:['src/**/*.coffee'],
+	options:{
+	  output: 'docs/'
+	}
+      }
     }
   });
 
   grunt.registerTask('compile', ['concurrent:coffeelint', 'concurrent:compile', 'watch:src']);
+  grunt.registerTask('doc', ['docco:src']);
 
 };
