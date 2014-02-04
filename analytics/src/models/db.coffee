@@ -2,4 +2,4 @@
 #Author : Félix Leblanc
 #Database Configuration
 #
-number = 42
+number = 43

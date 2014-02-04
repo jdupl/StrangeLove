@@ -24,6 +24,7 @@
     "coffeelint": "~1.0.6",
     "grunt-coffeelint": "0.0.8",
     "grunt-contrib-watch": "~0.5.3",
-    "time-grunt": "~0.2.8"
+    "time-grunt": "~0.2.8",
+    "grunt-concurrent": "~0.4.3"
   }
 }
