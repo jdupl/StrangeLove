@@ -24,14 +24,27 @@ module.exports = function(grunt){
       }
     },
     coffeelint:{
+      all:{
+        
+      },
       models:{
         files:{
 	  src:['src/models/*.coffee']
+	},
+	options:{
+	  'no_trailing_whitespace':{
+	    'level':'ignore'
+	  }
 	}
       },
       tests:{
         files:{
 	  src:['src/tests/*.coffee']
+	},
+        options:{
+	  'no_trailing_whitespace':{
+	    'level':'ignore'
+	  }
 	}
       }
     },
@@ -55,7 +68,7 @@ module.exports = function(grunt){
     }
   });
 
-  grunt.registerTask('compile', ['concurrent:coffeelint', 'concurrent:compile', 'watch:src']);
+  grunt.registerTask('compile', ['watch:src']);
   grunt.registerTask('doc', ['docco:src']);
 
 };
