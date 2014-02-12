@@ -21,12 +21,6 @@
 
 __version__ = "v0.0.0"
 
-import os.path
-import socket
-import json
-import sys
-import datetime
-from Keys import *
 import Server
 from threading import Thread
 
