@@ -37,7 +37,8 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write("Config is not sane !")
         else:
-            gpu_statuses = GpuInfo.processDevs(devs)
+            when = api.getServerTime(api_data)
+            gpu_statuses = GpuInfo.processDevs(devs, when)
             res = {'timestamp':timestamp, 'server_id': server_id, 'server_status':server_status, 'gpu_statuses':gpu_statuses}
             self.send_response(200)
             self.send_header("Content-type", "application/json")

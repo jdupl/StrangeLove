@@ -26,13 +26,11 @@ class api():
             return []
             
             
-    def getWorkDelays(self, api_data):
+    def getServerTime(self, api_data):
         when = 0
         if 'STATUS' in api_data:
-            when = api_data['STATUS']['When']
-        last_work = 0;
-        last_valid_work = 0;
-
+            when = api_data['STATUS'][0]['When']
+        return when
         
     def isValidReponse(self, api_data):
         if 'STATUS' in api_data and api_data['STATUS'][0]['STATUS'] == 'S' and api_data['STATUS'][0]['Code'] == 9:
@@ -53,9 +51,6 @@ class api():
             response = self.linesplit(self, s)
             response = response.replace('\x00', '')
             response = json.loads(response)
-            succes = response['STATUS'][0]['STATUS']
-            if succes != 'S':
-                print "an error occured"
             s.close()
         except Exception, e:
             print "Could not reach cgminer. Providing false information !"

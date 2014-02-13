@@ -10,13 +10,13 @@ ServerInfo = ServerInfo.ServerInfo()
 class GpuInfo():
 
 
-    def processDevs(self, devs):
+    def processDevs(self, devs, time):
         devs_json = []
         for dev in devs:
-            devs_json.append(self.processDev(dev))
+            devs_json.append(self.processDev(dev, time))
         return devs_json
 
-    def processDev(self, dev):
+    def processDev(self, dev, time):
         dev_json = {}
         dev_json[CommonKeys.GPU_ID] = ServerInfo.getGPUGlobalId(dev[MinerKeys.GPU_ID])
         dev_json[CommonKeys.TEMPERATURE] = dev[MinerKeys.TEMPERATURE]
@@ -29,4 +29,6 @@ class GpuInfo():
         dev_json[CommonKeys.ACCEPTED] = dev[MinerKeys.ACCEPTED]
         dev_json[CommonKeys.CURRENT_HASH_RATE] = dev[MinerKeys.CURRENT_HASH_RATE]
         dev_json[CommonKeys.INTENSITY] = dev[MinerKeys.INTENSITY]
+        dev_json[CommonKeys.TIME_SINCE_LAST_WORK] = time - dev[MinerKeys.LAST_WORK_TIME]
+        dev_json[CommonKeys.TIME_SINCE_LAST_VALID_WORK] = time - dev[MinerKeys.LAST_VALID_WORK_TIME]
         return dev_json
