@@ -27,8 +27,8 @@ class GpuInfo():
         dev_json[CommonKeys.HW_ERRORS] = dev[MinerKeys.HW_ERRORS]
         dev_json[CommonKeys.REJECTED] = dev[MinerKeys.REJECTED]
         dev_json[CommonKeys.ACCEPTED] = dev[MinerKeys.ACCEPTED]
-        dev_json[CommonKeys.CURRENT_HASH_RATE] = dev[MinerKeys.CURRENT_HASH_RATE]
-        dev_json[CommonKeys.INTENSITY] = dev[MinerKeys.INTENSITY]
+        dev_json[CommonKeys.CURRENT_HASH_RATE] = int(dev[MinerKeys.CURRENT_HASH_RATE] * 1000)
+        dev_json[CommonKeys.INTENSITY] = int(dev[MinerKeys.INTENSITY])
         dev_json[CommonKeys.TIME_SINCE_LAST_WORK] = time - dev[MinerKeys.LAST_WORK_TIME]
         dev_json[CommonKeys.TIME_SINCE_LAST_VALID_WORK] = time - dev[MinerKeys.LAST_VALID_WORK_TIME]
         return dev_json

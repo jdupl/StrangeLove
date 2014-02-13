@@ -1,6 +1,8 @@
 
 
 class MinerKeys():
+    # thoses keys are only valid for cgminer's api
+    # please check CommonKeys.py for return of this wrapper
     GPU_ID = "GPU"
     TEMPERATURE = "Temperature"
     GPU_VOLTAGE = "GPU Voltage"

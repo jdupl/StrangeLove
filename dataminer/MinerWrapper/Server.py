@@ -3,6 +3,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler
 import cgminerapi
 import ServerInfo
 import GpuInfo
+from CommonKeys import *
 import json
 import time
 
@@ -39,7 +40,7 @@ class Handler(BaseHTTPRequestHandler):
         else:
             when = api.getServerTime(api_data)
             gpu_statuses = GpuInfo.processDevs(devs, when)
-            res = {'timestamp':timestamp, 'server_id': server_id, 'server_status':server_status, 'gpu_statuses':gpu_statuses}
+            res = {CommonKeys.TIMESTAMP : timestamp, CommonKeys.SERVER_ID : server_id, CommonKeys.SERVER_STATUS : server_status, CommonKeys.GPUS_STATUS : gpu_statuses}
             self.send_response(200)
             self.send_header("Content-type", "application/json")
             self.end_headers()
@@ -49,6 +50,7 @@ def serve_on_port(port):
     print "Serving on local host port %s" % str(port)
 
     # test config
+    #ServerInfo.writeConfig([{'relative':'0', 'global':'1234'})
     ServerInfo.writeConfig([{'relative':'0', 'global':'1234'}, {'relative':'1', 'global':'1235'}])
 
     httpd = SocketServer.TCPServer(("localhost", port), Handler)
