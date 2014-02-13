@@ -12,3 +12,5 @@ class CommonKeys():
     ACCEPTED = "shares_accepted"
     CURRENT_HASH_RATE = "hashrate"
     INTENSITY = "intensity"
+    TIME_SINCE_LAST_WORK = "time_since_last_work"
+    TIME_SINCE_LAST_VALID_WORK = "time_since_last_valid_work"
