@@ -19,16 +19,20 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-__version__ = "v0.0.0"
+__version__ = "v1.0.0"
+
+import os
+from threading import Thread
 
 import Server
-from threading import Thread
+
 
 def main():
     print "SgMiner/Cgminer api wrapper version %s" % __version__
-    Thread(target=Server.serve_on_port, args=[1337]).start()
-    print "server started"
-    
+    if os.name == "nt":
+        print "OS is not supported ! Server information will not be correct."
+    Thread(target = Server.serve_on_port, args = [1337]).start()
+
 
 if __name__ == "__main__":
     main()
