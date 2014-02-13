@@ -17,9 +17,11 @@ def graph_reduce(number_of_points, data, average):
         return data
 
     leap = len(data)/number_of_points
-
     reduced = []
-    leap_iter = 0
+
+    #this is not the most accurate algoritm out there 
+    #but it's fast and close enough. 
+    #should be fairly accurate with larger data samples
     for x in range(0, number_of_points):
         from_point = int(leap * x)
         to_point = int (leap * (x+1))
@@ -33,15 +35,12 @@ def graph_reduce(number_of_points, data, average):
     return reduced
 
 #aggregates values at calculated intervals
-def graph_reduce_additive(number_of_points, data):
+def graph_reduce_aggregate(number_of_points, data):
     return graph_reduce(number_of_points, data, False)
-    
-
 
 #averages values within calculated intervals
 def graph_reduce_average(number_of_points, data):
     return graph_reduce(number_of_points, data, True)
-
 
 
 
@@ -55,9 +54,9 @@ print('\nsample: (length:' +str(len(data)) + ')')
 print data
 
 #method testing
-reduced_add = graph_reduce_additive(15,data)
+reduced_add = graph_reduce_aggregate(15,data)
 reduced_avg = graph_reduce_average(15,data)
-print('\naggregation result: (length:' + str(len(reduced_add)) + ')')
+print('\naggregated results: (length:' + str(len(reduced_add)) + ')')
 print reduced_add
-print('\naverage result: (length:' + str(len(reduced_avg)) + ')')
+print('\naveraged results: (length:' + str(len(reduced_avg)) + ')')
 print reduced_avg
