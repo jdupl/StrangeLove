@@ -15,7 +15,7 @@ class GpuInfo():
         for dev in devs:
             devs_json.append(self.processDev(dev))
         return devs_json
-    
+
     def processDev(self, dev):
         dev_json = {}
         dev_json[CommonKeys.GPU_ID] = ServerInfo.getGPUGlobalId(dev[MinerKeys.GPU_ID])
