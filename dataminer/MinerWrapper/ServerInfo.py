@@ -1,8 +1,9 @@
-import os
 import json
+import os
 import sys
-from datetime import timedelta
+
 from CommonKeys import *
+
 
 class ServerInfo():
 
@@ -16,12 +17,12 @@ class ServerInfo():
     def getLoadAvg(self):
         if not sys.platform.startswith('linux'):
             return [-1, -1, -1]
-        return os.getloadavg() #TODO: test on a linux system the return of this method to split into an array
+        return os.getloadavg()  # TODO: test on a linux system the return of this method to split into an array
 
 
     def getServerInfo(self):
         return {CommonKeys.UPTIME : 12124, CommonKeys.LOAD_AVG : [0.12, 0.10, 0.05]}
-        #return {"uptime": self.getUptime(), 'load_avg':self.getLoagAvg()}
+        # return {"uptime": self.getUptime(), 'load_avg':self.getLoagAvg()}
 
 
     def getGPUGlobalId(self, relativeId):
@@ -36,9 +37,8 @@ class ServerInfo():
             json_data = open('config')
             return json.load(json_data)
         except IOError:
-           print 'No valid config was found ! (or read error)'
-           return []
-        
+            print 'No valid config was found ! (or read error)'
+            return []
 
 
     def writeConfig(self, config):

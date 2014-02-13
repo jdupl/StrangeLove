@@ -22,14 +22,16 @@
 __version__ = "v0.0.0"
 
 import os
-import Server
 from threading import Thread
+
+import Server
+
 
 def main():
     print "SgMiner/Cgminer api wrapper version %s" % __version__
     if os.name == "nt":
         print "OS is not supported ! Server information will not be correct."
-    Thread(target=Server.serve_on_port, args=[1337]).start()
+    Thread(target = Server.serve_on_port, args = [1337]).start()
     print "server started"
 
 

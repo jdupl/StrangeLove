@@ -1,9 +1,7 @@
-import os
-import json
-import time
-from MinerKeys import *
 from CommonKeys import *
+from MinerKeys import *
 import ServerInfo
+
 
 ServerInfo = ServerInfo.ServerInfo()
 

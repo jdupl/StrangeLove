@@ -1,6 +1,5 @@
 import json
 import socket
-import sys
 
 
 class api():
@@ -24,20 +23,19 @@ class api():
             return api_data['DEVS']
         else:
             return []
-            
-            
+
     def getServerTime(self, api_data):
         when = 0
         if 'STATUS' in api_data:
             when = api_data['STATUS'][0]['When']
         return when
-        
+
     def isValidReponse(self, api_data):
         if 'STATUS' in api_data and api_data['STATUS'][0]['STATUS'] == 'S' and api_data['STATUS'][0]['Code'] == 9:
             return True
         return False
-        
-        
+
+
     def call(self):
         api_ip = '127.0.0.1'
         api_port = 4028
