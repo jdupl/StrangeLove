@@ -8,6 +8,8 @@ USE `strangelove` ;
 -- -----------------------------------------------------
 -- Table `strangelove`.`users`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`users` ;
+
 CREATE  TABLE IF NOT EXISTS `strangelove`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `username` VARCHAR(20) NOT NULL ,
@@ -22,8 +24,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `strangelove`.`machines`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`machines` ;
+
 CREATE  TABLE IF NOT EXISTS `strangelove`.`machines` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` VARCHAR(100) NOT NULL ,
   `name` VARCHAR(40) NULL ,
   `total_slots` INT NULL ,
   `occupied_slots` INT NULL ,
@@ -38,8 +42,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `strangelove`.`units`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`units` ;
+
 CREATE  TABLE IF NOT EXISTS `strangelove`.`units` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `id` VARCHAR(100) NOT NULL ,
   `machine_id` INT NOT NULL ,
   `model` VARCHAR(120) NULL ,
   `installation_date` DATE NULL ,
@@ -59,6 +65,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `strangelove`.`users_units`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`users_units` ;
+
 CREATE  TABLE IF NOT EXISTS `strangelove`.`users_units` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `user_id` INT NOT NULL ,
@@ -83,16 +91,41 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `strangelove`.`stats`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`stats` ;
+
 CREATE  TABLE IF NOT EXISTS `strangelove`.`stats` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `unit_id` INT NOT NULL ,
-  `hashrate` BIGINT NOT NULL ,
-  `timestamp` INT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_stats_1_idx` (`unit_id` ASC) ,
-  CONSTRAINT `fk_stats_unit_id`
-    FOREIGN KEY (`unit_id` )
+  `stat_id` INT NOT NULL AUTO_INCREMENT ,
+  `device_id` VARCHAR(100) NOT NULL ,
+  `temperature` FLOAT NOT NULL ,
+  `device_voltage` FLOAT NOT NULL ,
+  `engine_clock` INT NOT NULL ,
+  `memory_clock` INT NULL ,
+  `fan_rpm` INT NULL ,
+  `hardware_errors` INT NULL ,
+  `shares_rejected` INT NULL ,
+  `shares_accepted` INT NULL ,
+  `hashrate` INT NULL ,
+  `intensity` INT NULL ,
+  `time_since_last_work` INT NULL ,
+  `time_since_last_valid_work` INT NULL ,
+  `uptime` INT NULL ,
+  `load_avg` VARCHAR(45) NULL ,
+  `timestamp` INT NULL ,
+  `r_status` INT NULL ,
+  `server_id` VARCHAR(100) NULL ,
+  `units_id` INT NOT NULL ,
+  `machines_id` INT NOT NULL ,
+  PRIMARY KEY (`stat_id`) ,
+  INDEX `fk_stats_units1_idx` (`device_id` ASC) ,
+  INDEX `fk_stats_machines1_idx` (`server_id` ASC) ,
+  CONSTRAINT `fk_stats_units1`
+    FOREIGN KEY (`device_id` )
     REFERENCES `strangelove`.`units` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_stats_machines1`
+    FOREIGN KEY (`server_id` )
+    REFERENCES `strangelove`.`machines` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
