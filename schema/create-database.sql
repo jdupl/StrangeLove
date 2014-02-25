@@ -2,6 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+DROP SCHEMA IF EXISTS `strangelove` ;
 CREATE SCHEMA IF NOT EXISTS `strangelove` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `strangelove` ;
 
@@ -27,7 +28,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `strangelove`.`machines` ;
 
 CREATE  TABLE IF NOT EXISTS `strangelove`.`machines` (
-  `id` VARCHAR(100) NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(40) NULL ,
   `total_slots` INT NULL ,
   `occupied_slots` INT NULL ,
@@ -35,6 +36,7 @@ CREATE  TABLE IF NOT EXISTS `strangelove`.`machines` (
   `motherboard_model` VARCHAR(80) NULL ,
   `motherboard_serial_number` VARCHAR(45) NULL ,
   `value` DOUBLE NULL ,
+  `ip_adress` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -45,7 +47,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `strangelove`.`units` ;
 
 CREATE  TABLE IF NOT EXISTS `strangelove`.`units` (
-  `id` VARCHAR(100) NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `machine_id` INT NOT NULL ,
   `model` VARCHAR(120) NULL ,
   `installation_date` DATE NULL ,
@@ -95,7 +97,7 @@ DROP TABLE IF EXISTS `strangelove`.`stats` ;
 
 CREATE  TABLE IF NOT EXISTS `strangelove`.`stats` (
   `stat_id` INT NOT NULL AUTO_INCREMENT ,
-  `device_id` VARCHAR(100) NOT NULL ,
+  `device_id` INT NOT NULL ,
   `temperature` FLOAT NOT NULL ,
   `device_voltage` FLOAT NOT NULL ,
   `engine_clock` INT NOT NULL ,
@@ -108,23 +110,31 @@ CREATE  TABLE IF NOT EXISTS `strangelove`.`stats` (
   `intensity` INT NULL ,
   `time_since_last_work` INT NULL ,
   `time_since_last_valid_work` INT NULL ,
-  `uptime` INT NULL ,
-  `load_avg` VARCHAR(45) NULL ,
-  `timestamp` INT NULL ,
-  `r_status` INT NULL ,
-  `server_id` VARCHAR(100) NULL ,
-  `units_id` INT NOT NULL ,
-  `machines_id` INT NOT NULL ,
   PRIMARY KEY (`stat_id`) ,
   INDEX `fk_stats_units1_idx` (`device_id` ASC) ,
-  INDEX `fk_stats_machines1_idx` (`server_id` ASC) ,
   CONSTRAINT `fk_stats_units1`
     FOREIGN KEY (`device_id` )
     REFERENCES `strangelove`.`units` (`id` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_stats_machines1`
-    FOREIGN KEY (`server_id` )
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `strangelove`.`stats_machines`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`stats_machines` ;
+
+CREATE  TABLE IF NOT EXISTS `strangelove`.`stats_machines` (
+  `id` INT NOT NULL ,
+  `machine_id` INT NULL ,
+  `uptime` INT NULL ,
+  `load_avg` INT NULL ,
+  `timestamp` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_stats_machines_idx` (`machine_id` ASC) ,
+  CONSTRAINT `fk_stats_machines`
+    FOREIGN KEY (`machine_id` )
     REFERENCES `strangelove`.`machines` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

@@ -6,7 +6,6 @@ var mysql = require('mysql');
 var ip = 'http://192.168.1.118';
 var port = '80';
 var url = ip + ':' + port;
-
 //Mining server options
 var options = {
   url:url,
@@ -22,6 +21,14 @@ var connection = mysql.createConnection({
   password:''
 });
 
+//Connect to the database
+connection.connect(function(err){
+  if(err){
+    console.log(err);
+  }
+  console.log('Connected to mysql');
+});
+
 //Http request to get the miner performance
 request(options, function(err, response, body){
   if(err){
@@ -30,13 +37,6 @@ request(options, function(err, response, body){
   if(response.statusCode != 200){
     console.log(response.statusCode);
   } else {
-  //Connect to the database
-    connection.connect(function(err){
-      if(err){
-        console.log(err);
-      }
-      console.log('Connected to mysql');
-    });
     //Escape the body information
     stat_id = connection.escape(stat_id);
     device_id = connection.escape(device_id);
@@ -60,12 +60,6 @@ request(options, function(err, response, body){
     units_id = connection.escape(units_id);
     machines_id = connection.escape(machines_id);
     //Insert the data in the database
-    var query = 'insert into stats(device_id, temperature, device_voltage, engine_clock, memory_clock, fan_rpm, hardware_errors, shares_rejected, shares_accepted, hashrate, intensity,time_since_last_work, time_since_last_valid_work, uptime, load_avg, timestamp, r_status, server_id) values(' + stat_id + ',' + device_id + ',' + temperature + ',' + device_voltage + ',' + engine_clock + ',' + memory_clock + ',' + fan_rpm + ',' + hardware_errors + ',' + shares_rejected + ',' + shares_accepted + ',' + hashrate + ',' + intensity + ',' + time_since_last_work +',' + time_since_last_valid_work + ',' + r_status + ',' + server_id + ',' + units_id + ',' + machines_id + ');'
-    connection.query(query, function(err, rows){
-      if(err){
-        console.log(err);
-      }
-      console.log('Success');
-    });
+    var query = 'insert into stats(device_id, temperature, device_voltage, engine_clock, memory_clock, fan_rpm, hardware_errors, shares_rejected, shares_accepted, hashrate, intensity,time_since_last_work, time_since_last_valid_work, uptime, load_avg, timestamp, r_status, server_id) values(
   }
 })
