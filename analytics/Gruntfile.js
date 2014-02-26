@@ -5,14 +5,16 @@ module.exports = function(grunt){
     jshint:{
       all: ['Gruntfile.js', 'app.js']
     },
-    forever:{
-      options:{
-	index:'app.js',
-	logDir:'logs'
+    watch:{
+      lint:{
+       files: ['app.js'],
+       tasks: ['jshint']
       }
     }
   });
 
   grunt.registerTask('deploy', ['forever:start']);
   grunt.registerTask('lint', ['jshint']);
+  grunt.registerTask('watch-lint', ['watch:lint']);
+
 };
