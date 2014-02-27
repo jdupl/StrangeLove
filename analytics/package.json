@@ -15,20 +15,16 @@
     "url": "https://github.com/drfoliberg/StrangeLove/issues"
   },
   "dependencies": {
-    "coffee-script": "~1.7.0",
-    "docco": "~0.6.3",
-    "mysql": "~2.0.1",
-    "winston": "~0.7.2"
+    "request": "~2.33.0",
+    "async": "~0.2.10",
+    "mysql": "~2.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-contrib-coffee": "~0.8.2",
-    "matchdep": "~0.3.0",
-    "coffeelint": "~1.0.6",
-    "grunt-coffeelint": "0.0.8",
     "grunt-contrib-watch": "~0.5.3",
     "time-grunt": "~0.2.8",
-    "grunt-concurrent": "~0.4.3",
-    "grunt-docco": "~0.3.2"
+    "jshint": "~2.4.3",
+    "grunt-contrib-jshint": "~0.8.0",
+    "load-grunt-tasks": "~0.3.0"
   }
 }

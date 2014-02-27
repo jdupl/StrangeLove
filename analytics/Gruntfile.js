@@ -1,74 +1,20 @@
 module.exports = function(grunt){
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  require('time-grunt')(grunt);
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
-    coffee:{
-      models:{
-        files:[{
-	  expand:true,
-	  cwd:'src/models/',
-	  src:['*.coffee'],
-	  dest:'dev/models/',
-	  ext:'.js'
-	}]
-      },
-      tests:{
-         files:[{
-	   expand:true,
-	   cwd:'src/tests/',
-	   src:['*.coffee'],
-	   dest:'dev/tests/',
-	   ext:'.js'
-	 }]
-      }
-    },
-    coffeelint:{
-      all:{
-        
-      },
-      models:{
-        files:{
-	  src:['src/models/*.coffee']
-	},
-	options:{
-	  'no_trailing_whitespace':{
-	    'level':'ignore'
-	  }
-	}
-      },
-      tests:{
-        files:{
-	  src:['src/tests/*.coffee']
-	},
-        options:{
-	  'no_trailing_whitespace':{
-	    'level':'ignore'
-	  }
-	}
-      }
+    jshint:{
+      all: ['Gruntfile.js', 'app.js']
     },
     watch:{
-     src:{
-      files:['src/**/*.coffee'],
-      tasks:['concurrent:coffeelint', 'concurrent:compile']
-     }
-    },
-    concurrent:{
-      coffeelint:['coffeelint:models', 'coffeelint:tests'],
-      compile:['coffee:models', 'coffee:tests']
-    },
-    docco:{
-      src:{
-        src:['src/**/*.coffee'],
-	options:{
-	  output: 'docs/'
-	}
+      lint:{
+       files: ['app.js'],
+       tasks: ['jshint']
       }
     }
   });
 
-  grunt.registerTask('compile', ['watch:src']);
-  grunt.registerTask('doc', ['docco:src']);
+  grunt.registerTask('deploy', ['forever:start']);
+  grunt.registerTask('lint', ['jshint']);
+  grunt.registerTask('watch-lint', ['watch:lint']);
 
 };
