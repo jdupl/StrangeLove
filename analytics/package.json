@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "request": "~2.33.0",
-    "async": "~0.2.10"
+    "async": "~0.2.10",
+    "mysql": "~2.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
