@@ -1,21 +1,19 @@
 
 
-class Keys():
+class MinerKeys():
+    # thoses keys are only valid for cgminer's api
+    # please check CommonKeys.py for return of this wrapper
+    GPU_ID = "GPU"
     TEMPERATURE = "Temperature"
     GPU_VOLTAGE = "GPU Voltage"
     GPU_CLOCK = "GPU Clock"
     MEM_CLOCK = "Memory Clock"
-
     FAN_RPM = "Fan Speed"
-    FAN_PERCENT = "Fan Percent"
-
     HW_ERRORS = "Hardware Errors"
-    REJECTED_RATIO = "Device Rejected%"
     REJECTED = "Rejected"
     ACCEPTED = "Accepted"
-
     CURRENT_HASH_RATE = "MHS 5s"
-    TOTAL_MH = "Total MH"
     INTENSITY = "Intensity"
-    UTILITY = "Utility"
-    ELAPSED = "Device Elapsed"
+
+    LAST_WORK_TIME = "Last Share Time"
+    LAST_VALID_WORK_TIME = "Last Valid Work"
