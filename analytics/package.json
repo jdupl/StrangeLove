@@ -25,6 +25,8 @@
     "time-grunt": "~0.2.8",
     "jshint": "~2.4.3",
     "grunt-contrib-jshint": "~0.8.0",
-    "load-grunt-tasks": "~0.3.0"
+    "load-grunt-tasks": "~0.3.0",
+    "mocha": "~1.17.1",
+    "grunt-mocha-test": "~0.9.3"
   }
 }
