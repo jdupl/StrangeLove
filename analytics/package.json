@@ -17,7 +17,7 @@
   "dependencies": {
     "request": "~2.33.0",
     "async": "~0.2.10",
-    "mysql": "~2.1.0"
+    "mongoose": "~3.8.8"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

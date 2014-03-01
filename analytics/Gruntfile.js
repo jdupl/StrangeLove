@@ -1,9 +1,13 @@
 module.exports = function(grunt){
   require('load-grunt-tasks')(grunt);
+  require('time-grunt')(grunt);
 
   grunt.initConfig({
     jshint:{
-      all: ['Gruntfile.js', 'app.js', 'test/*']
+      all: ['Gruntfile.js', 'app.js', 'test/*', 'package.json'],
+      options:{
+        "smarttabs": true
+      }
     },
     watch:{
       lint:{
@@ -18,7 +22,7 @@ module.exports = function(grunt){
     mochaTest:{
       test: {
         options: {
-          reporter: 'spec'
+          reporter: 'spec',
         },
         src: ['test/**/*.js']
       }
