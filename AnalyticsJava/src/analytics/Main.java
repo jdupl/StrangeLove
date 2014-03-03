@@ -30,15 +30,15 @@ public class Main {
 
 		Record lastRecord = getLastRecord(info.cardId, 5000);
 
-		int minedSinceLast = info.totalShares;
+		int minedSinceLast = info.sharesAccepted;
 		// If this card has an old record and total was not reset
-		if (lastRecord != null && info.totalShares > lastRecord.totalShares) {
-			minedSinceLast = info.totalShares - lastRecord.totalShares;
+		if (lastRecord != null && info.sharesAccepted > lastRecord.totalShares) {
+			minedSinceLast = info.sharesAccepted - lastRecord.totalShares;
 		}
 		Record now = new Record();
 		now.cardId = info.cardId;
 		now.timestamp = info.timestamp;
-		now.totalShares = info.totalShares;
+		now.totalShares = info.sharesAccepted;
 		now.mined = minedSinceLast;
 
 		updateServerInfo(now);
@@ -84,11 +84,18 @@ public class Main {
 					// TODO throw unsupported status from the api error
 					break;
 				}
+
+				if (json.containsKey(Keys.TIMESTAMP)) {
+					result.timestamp = ((Long) json.get(Keys.TIMESTAMP))
+							.intValue();
+				}
+
 				if (json.containsKey(Keys.GPUS_STATUS)) {
 					JSONArray gpus = (JSONArray) json.get(Keys.GPUS_STATUS);
 					for (Object object : gpus) {
 						// the constructor handles the main json parsing
-						result.gpusInfo.add(new GpuInfo((JSONObject) object));
+						result.gpusInfo.add(new GpuInfo((JSONObject) object,
+								result.timestamp));
 					}
 				}
 				if (json.containsKey(Keys.SERVER_STATUS)
@@ -99,9 +106,7 @@ public class Main {
 					// TODO handle server info (load average, uptime)
 					result.serverInfo = server;
 				}
-				if (json.containsKey(Keys.TIMESTAMP)) {
-					result.timestamp = (int) json.get(Keys.TIMESTAMP);
-				}
+
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
