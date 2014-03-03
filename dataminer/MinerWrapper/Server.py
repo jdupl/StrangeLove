@@ -19,7 +19,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         timestamp = int(round(time.time() * 1000))
-        server_id = "id"  # TODO: get server id
+        server_id = 1  # TODO: get server id
         # get server status
         server_status = ServerInfo.getServerInfo()
         # cgminer call
@@ -58,7 +58,7 @@ def serve_on_port(port):
 
     # test config
     # ServerInfo.writeConfig([{'relative':'0', 'global':'1234'})
-    ServerInfo.writeConfig([{'relative':'0', 'global':'1234'}, {'relative':'1', 'global':'1235'}])
+    ServerInfo.writeConfig([{'relative':'0', 'global': 1234}, {'relative':'1', 'global' : 1235}])
 
     httpd = SocketServer.TCPServer(("localhost", port), Handler)
     httpd.serve_forever()

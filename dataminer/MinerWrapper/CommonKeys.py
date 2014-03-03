@@ -3,7 +3,7 @@
 class CommonKeys():
 
     GPUS_STATUS = "gpus_status"  # array of the following section
-    GPU_ID = "device_id"  # string
+    GPU_ID = "device_id"  # int
     TEMPERATURE = "temperature"  # float
     GPU_VOLTAGE = "device_voltage"  # float
     GPU_CLOCK = "engine_clock"  # int
@@ -23,5 +23,5 @@ class CommonKeys():
 
     # General
     TIMESTAMP = "timestamp"  # int current ms of the server
-    SERVER_ID = "server_id"  # String
+    SERVER_ID = "server_id"  # int
     REQUEST_STATUS = "r_status"  # int

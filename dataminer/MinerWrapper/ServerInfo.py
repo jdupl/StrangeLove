@@ -28,7 +28,7 @@ class ServerInfo():
     def getGPUGlobalId(self, relativeId):
         config = self.getConfig()
         if len(config) > relativeId:
-            return config[relativeId]['global']
+            return int(config[relativeId]['global'])
         return -1
 
 
