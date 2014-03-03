@@ -19,7 +19,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-__version__ = "v1.0.0"
+__version__ = "v1.1.0"
 
 import os
 from threading import Thread
