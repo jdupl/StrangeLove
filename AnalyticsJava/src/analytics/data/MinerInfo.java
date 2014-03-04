@@ -1,6 +1,6 @@
-package analytics;
+package analytics.data;
 
-public class ServerInfo {
+public class MinerInfo {
 
 	private int serverId;
 	private int uptime;

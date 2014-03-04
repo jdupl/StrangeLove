@@ -1,4 +1,4 @@
-package analytics;
+package analytics.constants;
 
 public class Keys {
 	public static final String GPUS_STATUS = "gpus_status",

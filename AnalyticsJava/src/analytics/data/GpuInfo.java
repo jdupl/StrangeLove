@@ -1,6 +1,8 @@
-package analytics;
+package analytics.data;
 
 import org.json.simple.JSONObject;
+
+import analytics.constants.Keys;
 
 public class GpuInfo {
 
@@ -19,14 +21,21 @@ public class GpuInfo {
 	public int timeSinceLastWork;
 	public int timeSinceLastValidWork;
 
+	public int validSharedSinceLast;
+	public int invalidSharedSinceLast;
+
+	public GpuInfo() {
+
+	}
+
 	public GpuInfo(JSONObject object, int timestamp) {
 
 		this.timestamp = timestamp;
-		
+
 		try {
 			this.cardId = ((Long) object.get(Keys.GPU_ID)).intValue();
-			this.temperature = ((Float) object.get(Keys.TEMPERATURE)).floatValue();
-			this.voltage = ((Float) object.get(Keys.GPU_VOLTAGE)).floatValue();
+			this.temperature = ((Double) object.get(Keys.TEMPERATURE)).floatValue();
+			this.voltage = ((Double) object.get(Keys.GPU_VOLTAGE)).floatValue();
 			this.coreClock = ((Long) object.get(Keys.GPU_CLOCK)).intValue();
 			this.memClock = ((Long) object.get(Keys.MEM_CLOCK)).intValue();
 			this.fanRpm = ((Long) object.get(Keys.FAN_RPM)).intValue();
@@ -37,10 +46,15 @@ public class GpuInfo {
 			this.intensity = ((Long) object.get(Keys.INTENSITY)).intValue();
 			this.timeSinceLastWork = ((Long) object.get(Keys.TIME_SINCE_LAST_WORK)).intValue();
 			this.timeSinceLastValidWork = ((Long) object.get(Keys.TIME_SINCE_LAST_VALID_WORK)).intValue();
-			
+
 		} catch (NullPointerException e) {
 			// TODO: LOG invalid result
 		}
+
+	}
+
+	public void setMinedSinceLast(GpuInfo lastRecord) {
+		// TODO use last record to calculate mined shares since last record
 
 	}
 }

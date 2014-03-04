@@ -1,9 +1,10 @@
-package analytics;
+package analytics.data;
 
 public class Miner {
 
 	public String name;
 	public int serverId;
-	public String adress;
+	public String address;
+	public int port;
 
 }
