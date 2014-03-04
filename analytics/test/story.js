@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var storySchema = new Schema({
   _creator: {type: Schema.Types.ObjectId, ref: 'Person'},
   title: String,
-  fans: [{type:Number, ref:'Person'}]
+  fans: [{type:Schema.Types.ObjectId, ref:'Person'}]
 });
 
 var Story = mongoose.model('Story', storySchema);
