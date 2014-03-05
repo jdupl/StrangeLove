@@ -3,6 +3,7 @@ package analytics;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Observable;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -17,28 +18,26 @@ import analytics.data.Miner;
 import analytics.data.MinerInfo;
 
 /**
- * Thread that requests the miner given in the constructor. Adds the result to the callback class using the method
- * "addResult(Result , Miner)"
+ * Thread that calls the api of the miner given in the constructor.
  * 
  * @author Justin Duplessis
  * 
  */
 
-public class Client extends Thread {
+public class Client extends Observable implements Runnable {
 
 	private Miner miner;
-	private Dispatcher callback;
 
-	public Client(Miner miner, Dispatcher callback) {
+	public Client(Miner miner) {
 		this.miner = miner;
-		this.callback = callback;
 	}
 
 	public void run() {
 		System.out.printf("Querying miner at address %s port %d\n", this.miner.address, this.miner.port);
 		ApiResult result = null;
 		result = callApi();
-		callback.addResult(result, this.miner);
+		setChanged();
+		notifyObservers(result);
 	}
 
 	public ApiResult callApi() {
@@ -75,7 +74,7 @@ public class Client extends Thread {
 					// TODO throw unsupported status from the api error
 					break;
 				}
-				
+
 				result = new ApiResult();
 
 				if (json.containsKey(Keys.TIMESTAMP)) {

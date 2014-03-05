@@ -4,26 +4,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Properties;
 
 import analytics.data.ApiResult;
 import analytics.data.GpuInfo;
 import analytics.data.Miner;
 import analytics.data.MinerInfo;
+import analytics.handler.Updater;
 
-public class Core extends Thread {
-
+public class Core extends Thread implements Observer {
 
 	public Core() {
 
 	}
-	
+
 	/**
 	 * When ran, the core gets the current list of active servers to query from MySql and calls the dispatcher.
 	 */
 	public void run() {
-		Dispatcher dispatcher = new Dispatcher(getMinerList(), this);
-		dispatcher.start();
+		Dispatcher dispatcher = new Dispatcher(getMinerList());
+		dispatcher.addObserver(this);
+		Thread t = new Thread(dispatcher);
+		t.start();
 	}
 
 	/**
@@ -53,7 +57,7 @@ public class Core extends Thread {
 
 	public void callback(ArrayList<ApiResult> results) {
 		System.out.println("Core thread called back with a list of " + results.size() + " api results.");
-		//TODO Call another thread to process the results (so call stack does not freeze)
+		// TODO Call another thread to process the results (so call stack does not freeze)
 	}
 
 	public synchronized Connection getConnection() throws SQLException {
@@ -85,6 +89,21 @@ public class Core extends Thread {
 		MinerInfo info = new MinerInfo();
 		// TODO query mysql
 		return info;
+	}
+
+	@Override
+	public void update(Observable o, Object r) {
+		// Remove nulls and invalid objects
+		ArrayList<ApiResult> results = new ArrayList<>();
+		for (Object result : (ArrayList<?>) r) {
+			if (result != null && result instanceof ApiResult) {
+				results.add((ApiResult) result);
+			}
+		}
+		// Send the clean list to an updater thread
+		Updater updater = new Updater(results);
+		Thread t = new Thread(updater);
+		t.start();
 	}
 
 }
