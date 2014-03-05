@@ -109,6 +109,8 @@ CREATE TABLE IF NOT EXISTS `strangelove`.`stats` (
   `intensity` INT NOT NULL,
   `time_since_last_work` INT NOT NULL,
   `time_since_last_valid_work` INT NOT NULL,
+  `shares_since_last_record` INT NOT NULL,
+  `invalid_shares_since_last_record` INT NOT NULL,
   INDEX `fk_stats_units1_idx` (`device_id` ASC),
   PRIMARY KEY (`timestamp`, `device_id`),
   CONSTRAINT `fk_stats_units1`
