@@ -1,17 +1,11 @@
 package analytics;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Properties;
 
 import analytics.data.ApiResult;
-import analytics.data.GpuInfo;
 import analytics.data.Miner;
-import analytics.data.MinerInfo;
 import analytics.handler.Updater;
 
 public class Core extends Thread implements Observer {
@@ -58,37 +52,6 @@ public class Core extends Thread implements Observer {
 	public void callback(ArrayList<ApiResult> results) {
 		System.out.println("Core thread called back with a list of " + results.size() + " api results.");
 		// TODO Call another thread to process the results (so call stack does not freeze)
-	}
-
-	public synchronized Connection getConnection() throws SQLException {
-		Connection conn = null;
-		Properties connProps = new Properties();
-		connProps.put("user", "strangelove");
-		connProps.put("password", "");
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", connProps);
-		return conn;
-	}
-
-	public synchronized boolean updateServerInfo(MinerInfo now) throws SQLException {
-		// TODO insert new Record in DB
-		return true;
-	}
-
-	public synchronized boolean updateGpuInfo(GpuInfo now) {
-		// TODO insert new Record in DB
-		return true;
-	}
-
-	public synchronized GpuInfo getLastRecordGpu(int cardId) {
-		GpuInfo info = new GpuInfo();
-		// TODO query mysql
-		return info;
-	}
-
-	public synchronized MinerInfo getLastRecordServer(int serverId) {
-		MinerInfo info = new MinerInfo();
-		// TODO query mysql
-		return info;
 	}
 
 	@Override
