@@ -18,7 +18,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
     def do_GET(self):
-        timestamp = int(round(time.time() * 1000))
+        timestamp = int(round(time.time()))
         server_id = 1  # TODO: get server id
         # get server status
         server_status = ServerInfo.getServerInfo()
