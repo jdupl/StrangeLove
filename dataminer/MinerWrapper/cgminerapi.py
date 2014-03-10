@@ -46,7 +46,7 @@ class api():
         try:
             s.connect((api_ip, int(api_port)))
             s.send(json.dumps({"command": api_command}))
-            response = self.linesplit(self, s)
+            response = self.linesplit(s)
             response = response.replace('\x00', '')
             response = json.loads(response)
             s.close()
