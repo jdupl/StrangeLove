@@ -1,11 +1,12 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var unitSchema = new mongoose.Schema({
-  machine_id:{type:Number, ref:'Machine'},
+  machine_id:{type:Schema.Types.ObjectId, ref:'Machine'},
   model:Number,
   installation_date:Date,
   purchase_date:Date,
-  seral_number:String,
+  serial_number:String,
   warranty_expiration_date:Date
 });
 

@@ -8,8 +8,7 @@ var machineSchema = new Schema({
   motherboard_model:String,
   motherboard_serial_number:String,
   value:Number,
-  ip_address:String,
-  units:[{type:Schema.Types.ObjectId, ref:'Unit'}]
+  ip_address:String
 });
 
 var Machine = mongoose.model('Machine', machineSchema);
