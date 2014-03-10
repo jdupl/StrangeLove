@@ -1,7 +1,34 @@
+
+# Api to serve local sgminer/cgminer data and send it via http formatted as
+# json.
+# This api will figure out which relative gpu id is which global gpu id to
+# simplify the analysis program.
+
+# Copyright (C) 2014 Justin Duplessis
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+__version__ = "v1.1.0"
+
 from BaseHTTPServer import BaseHTTPRequestHandler
+import BaseHTTPServer
 import SocketServer
 import json
 import time
+import os
 
 from CommonKeys import *
 from ErrorCodes import *
@@ -59,6 +86,18 @@ def serve_on_port(port):
     # test config
     # ServerInfo.writeConfig([{'relative':'0', 'global':'1234'})
     ServerInfo.writeConfig([{'relative':'0', 'global': 1234}, {'relative':'1', 'global' : 1235}])
+    server_class = BaseHTTPServer.HTTPServer
+    httpd = server_class(("localhost", port), Handler)
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+		pass
+    httpd.server_close()
+    print "Server stopped"
 
-    httpd = SocketServer.TCPServer(("localhost", port), Handler)
-    httpd.serve_forever()
+
+if __name__ == "__main__":
+    print "SgMiner/Cgminer api wrapper version %s" % __version__
+    if os.name == "nt":
+        print "OS is not supported ! Server information will not be correct."
+    serve_on_port(1337)
