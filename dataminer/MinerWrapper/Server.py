@@ -81,13 +81,13 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(res))
 
 def serve_on_port(port):
-    print "Serving on local host port %s" % str(port)
+    print "Serving port %s" % str(port)
 
     # test config
     # ServerInfo.writeConfig([{'relative':'0', 'global':'1234'})
     ServerInfo.writeConfig([{'relative':'0', 'global': 1234}, {'relative':'1', 'global' : 1235}])
     server_class = BaseHTTPServer.HTTPServer
-    httpd = server_class(("localhost", port), Handler)
+    httpd = server_class(("", port), Handler)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
