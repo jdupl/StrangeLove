@@ -19,27 +19,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-
 __version__ = "v1.2.0"
 
 from BaseHTTPServer import BaseHTTPRequestHandler
-import BaseHTTPServer
-import SocketServer
-import json
-import time
-import os
-
 from CommonKeys import *
 from ErrorCodes import *
+import BaseHTTPServer
 import GpuInfo
 import ServerInfo
 import cgminerapi
+import json
+import os
+import time
 
 
 api = cgminerapi.api()
 ServerInfo = ServerInfo.ServerInfo()
 GpuInfo = GpuInfo.GpuInfo()
+
 
 class Handler(BaseHTTPRequestHandler):
 
@@ -91,7 +88,7 @@ def serve_on_port(port):
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-		pass
+        pass
     httpd.server_close()
     print "Server stopped"
 
