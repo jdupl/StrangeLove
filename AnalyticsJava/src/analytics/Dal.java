@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import analytics.constants.Errors;
 import analytics.data.GpuInfo;
 import analytics.data.Miner;
 import analytics.data.MinerInfo;
@@ -23,14 +24,21 @@ public class Dal {
 		return conn;
 	}
 
+	public static void log(Errors e, String message) {
+		log(e.errorCode, message, e.logLevel);
+	}
+
+	public static void log(int code, String message, int level) {
+		//TODO log error
+	}
+
 	public static boolean insertMinerInfo(MinerInfo now) {
 		// TODO insert new Record in DB
 		return true;
 	}
 
 	/**
-	 * Gets the list of miner to contact from the database.
-	 * Returns empty arraylist if no result or error.
+	 * Gets the list of miner to contact from the database. Returns empty arraylist if no result or error.
 	 * 
 	 * @return An arraylist<Miner>
 	 */

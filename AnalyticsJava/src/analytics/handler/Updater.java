@@ -3,6 +3,7 @@ package analytics.handler;
 import java.util.ArrayList;
 
 import analytics.Dal;
+import analytics.constants.Errors;
 import analytics.data.ApiResult;
 import analytics.data.GpuInfo;
 import analytics.data.MinerInfo;
@@ -57,25 +58,33 @@ public class Updater implements Runnable {
 		GpuInfo lastRecord = Dal.getLastRecordGpu(now);
 
 		if (lastRecord == null) {
+
 			// this condition should only happen the first time a gpu is queried.
-			System.out.println("no last record");
+			Dal.log(Errors.NO_LAST_RECORD, "Adding first record of gpu with id" + now.cardId);
 			now.validSharedSinceLast = now.sharesAccepted;
 			now.invalidSharedSinceLast = now.sharesRefused;
+
 		} else if (lastRecord.timestamp > now.timestamp) {
-			System.out.println("Disruption in the space–time continuum detected !");
+
 			// TODO handle space–time continuum disruption
 			// Should never happen. Most likely, a time zone problem is the problem of this condition.
+			Dal.log(Errors.TIME_DISRUPTION, "Disruption in the space–time continuum detected !");
+
 		} else if (lastRecord.sharesAccepted <= now.sharesAccepted) {
+
 			// calculate shares since last record
 			// this should be the normal condition
 			now.validSharedSinceLast = now.sharesAccepted - lastRecord.sharesAccepted;
 			now.invalidSharedSinceLast = now.sharesRefused - lastRecord.sharesRefused;
+
 		} else {
+
 			// Should happen from time to time. Only when the miner just rebooted.
 			// TODO check with miner info the uptime of the server ? (nice to have)
-			System.out.println("The card last's record does not make sense. Assuming server rebooted.");
+			Dal.log(Errors.MINER_REBOOTED, "gpu with id " + now.cardId + " rebooted");
 			now.validSharedSinceLast = now.sharesAccepted;
 			now.invalidSharedSinceLast = now.sharesRefused;
+
 		}
 
 		return Dal.insertGpuRecord(now);

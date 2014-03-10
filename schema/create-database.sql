@@ -142,6 +142,21 @@ CREATE TABLE IF NOT EXISTS `strangelove`.`stats_machines` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `strangelove`.`Log`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`Log` ;
+
+CREATE TABLE IF NOT EXISTS `strangelove`.`Log` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` INT NULL,
+  `error_code` TINYINT NULL,
+  `level` TINYINT NULL,
+  `error_message` TEXT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
