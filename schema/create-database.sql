@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `strangelove`.`machines` (
   `motherboard_serial_number` VARCHAR(255) NULL,
   `value` DOUBLE NULL,
   `ip_address` VARCHAR(45) NULL,
+  `port` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
