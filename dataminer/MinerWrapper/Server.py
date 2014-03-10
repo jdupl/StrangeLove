@@ -83,9 +83,9 @@ class Handler(BaseHTTPRequestHandler):
 def serve_on_port(port):
     print "Serving port %s" % str(port)
 
-    # test config
+    # test config simple gpu /dual gpu
     # ServerInfo.writeConfig([{'relative':'0', 'global':'1234'})
-    ServerInfo.writeConfig([{'relative':'0', 'global': 1234}, {'relative':'1', 'global' : 1235}])
+    # ServerInfo.writeConfig([{'relative':'0', 'global': 1234}, {'relative':'1', 'global' : 1235}])
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class(("", port), Handler)
     try:
