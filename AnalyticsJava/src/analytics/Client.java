@@ -94,6 +94,9 @@ public class Client extends Observable implements Runnable {
 					miner.setServerId(((Long) json.get(Keys.SERVER_ID)).intValue());
 					// TODO handle server info (load average, uptime)
 					result.minerInfo = miner;
+					if (this.miner.serverId != result.minerInfo.getServerId()) {
+						// TODO log
+					}
 				}
 
 			}

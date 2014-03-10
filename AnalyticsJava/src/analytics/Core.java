@@ -31,7 +31,7 @@ public class Core extends Thread implements Observer {
 	 */
 	public synchronized ArrayList<Miner> getMinerList() {
 		ArrayList<Miner> miners = new ArrayList<>();
-
+		Dal.getMinerList();
 		Miner m = new Miner();
 		m.serverId = 0;
 		m.address = "127.0.0.1";
@@ -47,11 +47,6 @@ public class Core extends Thread implements Observer {
 		miners.add(m2);
 
 		return miners;
-	}
-
-	public void callback(ArrayList<ApiResult> results) {
-		System.out.println("Core thread called back with a list of " + results.size() + " api results.");
-		// TODO Call another thread to process the results (so call stack does not freeze)
 	}
 
 	@Override
