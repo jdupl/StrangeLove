@@ -151,6 +151,26 @@ describe.only('Models', function(){
     });
   });
   describe('Machine', function(){
+    it('should get the array of ip addresses', function(done){
+      var date = new Date().getTime();
+      var machine1 = new Machine({
+        name:'machine1',
+        total_slots:3, 
+	installation_date:date,
+	motherboard_serial_number:'serial',
+	value:34,
+	ip_address:'192.168.1.1'
+      });
+      var machine2 = new Machine({
+        name:'machine2',
+        total_slots:3, 
+	installation_date:date,
+	motherboard_serial_number:'serial',
+	value:34,
+	ip_address:'192.168.1.2'
+      });
+      done();
+    });
     it('should save a machine document', function(done){
       var date = new Date().getTime();
       var data = {name:'machine1',
@@ -211,6 +231,109 @@ describe.only('Models', function(){
 	  hash.update(data.password, 'utf-8');
 	  var hashedInsertPass = hash.digest('base64');
 	  assert.equal(hashedInsertPass, res[0].password);
+	  done();
+	});
+      });
+    });
+  });
+  describe('Async', function(){
+    it('should save two users in parralel', function(done){
+      var user1 = new User({
+        username:'user1',
+	password:'pass1',
+	salt:'not a salt',
+	email:'user1@email.com',
+	wallet:'hash'
+      });
+      var user2 = new User({
+        username:'user2',
+	password:'pass2',
+	salt:'not a salt',
+	email:'user1@email.com',
+	wallet:'hash'
+      });
+      async.parallel([function(cb){
+        user1.save(function(err){
+	  assert.isNull(err);
+	  cb(null, 1);
+	});
+      },
+      function(cb){
+        user2.save(function(err){
+	  assert.isNull(err);
+	  cb(null, 2);
+	});
+      }],
+      function(err, res){
+        assert.isNull(err);
+	assert.equal(res[0], 1);
+	assert.equal(res[1], 2);
+	User.find({username:user1.username}).exec(function(err, res){
+	  assert.isNull(err);
+	  assert.isDefined(res);
+	  assert.isDefined(res[0]);
+	  assert.equal(res[0]._id, user1._id + '');
+	  User.find({username:user2.username}).exec(function(err, res){
+	    assert.isNull(err);
+	    assert.isDefined(res);
+	    assert.isDefined(res[0]);
+	    assert.equal(res[0]._id, user2._id + '');
+	    done();
+	  });
+	});
+      });
+    });
+    it('should save and read two users in parallel', function(done){
+       var user1 = new User({
+        username:'user1',
+	password:'pass1',
+	salt:'not a salt',
+	email:'user1@email.com',
+	wallet:'hash'
+      });
+      var user2 = new User({
+        username:'user2',
+	password:'pass2',
+	salt:'not a salt',
+	email:'user1@email.com',
+	wallet:'hash'
+      });
+      async.parallel([function(cb){
+        user1.save(function(err){
+	  assert.isNull(err);
+	  cb(null, 1);
+	});
+      },
+      function(cb){
+        user2.save(function(err){
+	  assert.isNull(err);
+	  cb(null, 2);
+	});
+      }],
+      function(err, res){
+        assert.isNull(err);
+	assert.equal(res[0], 1);
+	assert.equal(res[1], 2);
+	async.parallel([
+	function(cb){
+	  User.find({username:user1.username}).exec(function(err, res){
+	    assert.isNull(err);
+	    assert.isDefined(res);
+	    assert.isDefined(res[0]);
+	    cb(null, res[0]);
+	  }); 
+	},
+	function(cb){
+	  User.find({username:user2.username}).exec(function(err, res){
+	    assert.isNull(err);
+	    assert.isDefined(res);
+	    assert.isDefined(res[0]);
+	    cb(null, res[0]);
+	  });
+	}],
+	function(err, res){
+	  assert.equal(res[0]._id, user1._id + '');
+	  assert.equal(res[1]._id, user2._id + '');
 	  done();
 	});
       });
