@@ -149,7 +149,7 @@ DROP TABLE IF EXISTS `strangelove`.`Log` ;
 
 CREATE TABLE IF NOT EXISTS `strangelove`.`Log` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `timestamp` INT NULL,
+  `timestamp` MEDIUMTEXT NULL,
   `error_code` TINYINT NULL,
   `level` TINYINT NULL,
   `error_message` TEXT NULL,
