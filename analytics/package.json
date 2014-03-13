@@ -28,6 +28,8 @@
     "load-grunt-tasks": "~0.3.0",
     "mocha": "~1.17.1",
     "grunt-mocha-test": "~0.9.3",
-    "chai": "~1.9.0"
+    "chai": "~1.9.0",
+    "faker": "0.0.6",
+    "Faker": "~0.7.0"
   }
 }

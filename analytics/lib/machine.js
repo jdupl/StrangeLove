@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var async = require('async');
 var Schema = mongoose.Schema;
 
 var machineSchema = new Schema({
@@ -16,7 +17,15 @@ machineSchema.statics.findIpAddresses = function(cb){
     if(err){
       console.log(err);
     }
-    cb(res);
+    async.map(res, function(machine, cb){
+      cb(null, machine.ip_address);
+    },
+    function(err, ip_addresses){
+      if(err){
+        console.log(err);
+      };
+      cb(ip_addresses);
+    });
   });
 }
 
