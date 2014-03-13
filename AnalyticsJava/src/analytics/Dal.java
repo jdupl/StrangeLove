@@ -28,8 +28,24 @@ public class Dal {
 		log(e.errorCode, message, e.logLevel);
 	}
 
-	public static void log(int code, String message, int level) {
-		//TODO log error
+	public static void log(byte code, String message, byte level) {
+
+		long timestamp = System.currentTimeMillis();
+		Connection conn = null;
+
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement("insert into strangelove.log ("
+					+ " timestamp, error_code, level, error_message " + ") values  ?, ?, ?, ?");
+			ps.setLong(1, timestamp);
+			ps.setByte(2, code);
+			ps.setByte(3, level);
+			ps.setString(4, message);
+		} catch (SQLException e) {
+			// TODO log to fallback log file
+			e.printStackTrace();
+		}
+
 	}
 
 	public static boolean insertMinerInfo(MinerInfo now) {

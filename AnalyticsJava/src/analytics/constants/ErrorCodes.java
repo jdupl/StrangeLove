@@ -9,5 +9,7 @@ public class ErrorCodes {
 			MINER_TIMEOUT = 5, // could not reach miner
 			NO_LAST_RECORD = 6, // no previous record found for the card/server
 			MINER_REBOOTED = 7, // previous record does not make sense. Miner must have rebooted.
+			UNEXPECTED_SERVER_ID = 8, // the server id returned from the miner was the same as the dispatcher expected
+			RESPONSE_MISSING_KEY = 9, // the json objet returned by the wrapper does not have all required keys 
 			UNKNOWN = 42;
 }

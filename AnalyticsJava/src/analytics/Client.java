@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import analytics.constants.ErrorCodes;
+import analytics.constants.Errors;
 import analytics.constants.Keys;
 import analytics.data.ApiResult;
 import analytics.data.GpuInfo;
@@ -43,6 +44,7 @@ public class Client extends Observable implements Runnable {
 	public ApiResult callApi() {
 
 		ApiResult result = null;
+		boolean validCall = false;
 
 		URL url = null;
 		try {
@@ -58,24 +60,35 @@ public class Client extends Observable implements Runnable {
 				switch ((int) status) {
 				case ErrorCodes.OK:
 					// response looks ok
+					validCall = true;
 					break;
 				case ErrorCodes.BAD_CGMINER:
-					// TODO log
+					Dal.log(Errors.BAD_CGMINER, "Bad return code from cgminer at ip " + this.miner.address + " port "
+							+ this.miner.port);
 					break;
 				case ErrorCodes.CONFIG_ERROR:
-					// TODO log
+					Dal.log(Errors.CONFIG_ERROR, "Bad wrapper config at ip " + this.miner.address + " port "
+							+ this.miner.port);
 					break;
 				case ErrorCodes.NO_CGMINER:
-					// TODO log
+					Dal.log(Errors.NO_CGMINER, "Wrapper could not contact cgminer at ip " + this.miner.address
+							+ " port " + this.miner.port);
 					break;
 				case ErrorCodes.UNKNOWN:
-					// TODO log
+					Dal.log(Errors.UNKNOWN, "Wrapper found unknown error at ip " + this.miner.address + " port "
+							+ this.miner.port);
 				default:
 					// TODO throw unsupported status from the api error
+					Dal.log(Errors.UNKNOWN, "Unknown return code from wrapper at ip " + this.miner.address + " port "
+							+ this.miner.port);
 					break;
 				}
 
 				result = new ApiResult();
+
+				if (!validCall) {
+					return result;
+				}
 
 				if (json.containsKey(Keys.TIMESTAMP)) {
 					result.timestamp = ((Long) json.get(Keys.TIMESTAMP)).intValue();
@@ -95,18 +108,19 @@ public class Client extends Observable implements Runnable {
 					// TODO handle server info (load average, uptime)
 					result.minerInfo = miner;
 					if (this.miner.serverId != result.minerInfo.getServerId()) {
-						// TODO log
+						Dal.log(Errors.UNEXPECTED_SERVER_ID, "Expected server id:" + this.miner.serverId + ""
+								+ " but got: " + result.minerInfo.getServerId() + "at ip " + this.miner.address
+								+ " port " + this.miner.port);
 					}
 				}
 
 			}
 		} catch (MalformedURLException e) {
-			// Should never really happen, but
-			// TODO: log error
+			// Should never happen
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.printf("Miner at %s port %d Timed out\n", miner.address, miner.port);
-			// TODO: handle timeout
+			Dal.log(Errors.MINER_TIMEOUT, "Could not reach miner at ip " + this.miner.address + " port "
+					+ this.miner.port);
 		}
 
 		return result;
