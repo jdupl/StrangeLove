@@ -4,6 +4,7 @@ public class MinerInfo {
 
 	private int serverId;
 	private int uptime;
+	private float loadAvg;
 
 	public int getServerId() {
 		return serverId;
@@ -19,6 +20,14 @@ public class MinerInfo {
 
 	public void setUptime(int uptime) {
 		this.uptime = uptime;
+	}
+
+	public void setLoadAvg(float avg) {
+		this.loadAvg = avg;
+	}
+
+	public float getLoadAvg() {
+		return this.loadAvg;
 	}
 
 }

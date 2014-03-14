@@ -2,6 +2,8 @@ package analytics.data;
 
 import org.json.simple.JSONObject;
 
+import analytics.Dal;
+import analytics.constants.Errors;
 import analytics.constants.Keys;
 
 public class GpuInfo {
@@ -48,13 +50,8 @@ public class GpuInfo {
 			this.timeSinceLastValidWork = ((Long) object.get(Keys.TIME_SINCE_LAST_VALID_WORK)).intValue();
 
 		} catch (NullPointerException e) {
-			// TODO: LOG invalid result
+			Dal.log(Errors.RESPONSE_MISSING_KEY, "Bad object received from miner wrapper");
 		}
-
-	}
-
-	public void setMinedSinceLast(GpuInfo lastRecord) {
-		// TODO use last record to calculate mined shares since last record
 
 	}
 }

@@ -29,29 +29,9 @@ public class Core extends Thread implements Observer {
 	 * 
 	 * @return The list of servers to query
 	 */
-	public synchronized ArrayList<Miner> getMinerList() {
-		ArrayList<Miner> miners = new ArrayList<>();
+	private synchronized ArrayList<Miner> getMinerList() {
 
-		Miner m = new Miner();
-		m.serverId = 0;
-		m.address = "127.0.0.1";
-		m.port = 1337;
-
-		miners.add(m);
-
-		Miner m2 = new Miner();
-		m2.serverId = 0;
-		m2.address = "127.0.0.1";
-		m2.port = 1338;
-
-		miners.add(m2);
-
-		return miners;
-	}
-
-	public void callback(ArrayList<ApiResult> results) {
-		System.out.println("Core thread called back with a list of " + results.size() + " api results.");
-		// TODO Call another thread to process the results (so call stack does not freeze)
+		return Dal.getMinerList();
 	}
 
 	@Override

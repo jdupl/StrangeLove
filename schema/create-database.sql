@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `strangelove`.`machines` (
   `motherboard_serial_number` VARCHAR(255) NULL,
   `value` DOUBLE NULL,
   `ip_address` VARCHAR(45) NULL,
+  `port` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -138,6 +139,21 @@ CREATE TABLE IF NOT EXISTS `strangelove`.`stats_machines` (
     REFERENCES `strangelove`.`machines` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `strangelove`.`Log`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `strangelove`.`Log` ;
+
+CREATE TABLE IF NOT EXISTS `strangelove`.`Log` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` MEDIUMTEXT NULL,
+  `error_code` TINYINT NULL,
+  `level` TINYINT NULL,
+  `error_message` TEXT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
