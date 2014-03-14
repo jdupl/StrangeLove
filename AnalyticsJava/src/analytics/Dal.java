@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -15,6 +16,13 @@ import analytics.data.MinerInfo;
 
 public class Dal {
 
+	/**
+	 * Connects a default localhost database
+	 * 
+	 * @return the sql connection
+	 * @throws SQLException
+	 *             Could not login/got a timeout
+	 */
 	private static Connection getConnection() throws SQLException {
 		Connection conn = null;
 		Properties connProps = new Properties();
@@ -28,6 +36,16 @@ public class Dal {
 		log(e.errorCode, message, e.logLevel);
 	}
 
+	/**
+	 * Tries to log in SQL table 'log'
+	 * 
+	 * @param code
+	 *            The error code
+	 * @param message
+	 *            The error message
+	 * @param level
+	 *            The level of importance of this error
+	 */
 	public static void log(byte code, String message, byte level) {
 
 		long timestamp = System.currentTimeMillis();
@@ -35,22 +53,38 @@ public class Dal {
 
 		try {
 			conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement("insert into strangelove.log ("
-					+ " timestamp, error_code, level, error_message " + ") values  ?, ?, ?, ?");
+			PreparedStatement ps = conn.prepareStatement("insert into strangelove.log"
+					+ " (timestamp, error_code, level, error_message " + ") values ( ?, ?, ?, ?)");
 			ps.setLong(1, timestamp);
 			ps.setByte(2, code);
 			ps.setByte(3, level);
 			ps.setString(4, message);
+			ps.execute();
 		} catch (SQLException e) {
-			// TODO log to fallback log file
-			e.printStackTrace();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+			System.err.printf("[%s] Could not log to mysql !"
+					+ " Error code: %d Log level: %d Orignal error message: %s Sql log exception : %s\n", sdf.toString(),
+					code, level, message, e.getMessage());
 		}
-
 	}
 
-	public static boolean insertMinerInfo(MinerInfo now) {
-		// TODO insert new Record in DB
-		return true;
+	public static boolean insertMinerInfo(MinerInfo now, int timestamp) {
+		Connection conn = null;
+		boolean succes = false;
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement("insert into strangelove.stats_machines"
+					+ " (machine_id, timestamp, uptime, load_avg" + ") values ( ?, ?, ?, ?)");
+			ps.setInt(1, now.getServerId());
+			ps.setInt(2, timestamp);
+			ps.setInt(3, now.getUptime());
+			ps.setFloat(4, now.getLoadAvg());
+			succes = ps.execute();
+		} catch (SQLException e) {
+			Dal.log(Errors.SQL_ERROR, e.getMessage());
+		}
+
+		return succes;
 	}
 
 	/**
@@ -75,8 +109,7 @@ public class Dal {
 			}
 
 		} catch (SQLException e) {
-			// TODO log
-			e.printStackTrace();
+			Dal.log(Errors.SQL_ERROR, e.getMessage());
 		}
 
 		return miners;
@@ -112,8 +145,7 @@ public class Dal {
 			succes = ps.execute();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Dal.log(Errors.SQL_ERROR, e.getMessage());
 		}
 
 		return succes;
@@ -144,7 +176,7 @@ public class Dal {
 			rs.close();
 			conn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Dal.log(Errors.SQL_ERROR, e.getMessage());
 		}
 		return lastInfo;
 	}

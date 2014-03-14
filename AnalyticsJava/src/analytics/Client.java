@@ -3,6 +3,7 @@ package analytics;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Scanner;
 
@@ -86,6 +87,9 @@ public class Client extends Observable implements Runnable {
 
 				result = new ApiResult();
 
+				int uptime = 0;
+				Double load = 0.0;
+
 				if (!validCall) {
 					return result;
 				}
@@ -104,14 +108,28 @@ public class Client extends Observable implements Runnable {
 				if (json.containsKey(Keys.SERVER_STATUS) && json.containsKey(Keys.SERVER_ID)) {
 
 					MinerInfo miner = new MinerInfo();
+
 					miner.setServerId(((Long) json.get(Keys.SERVER_ID)).intValue());
-					// TODO handle server info (load average, uptime)
 					result.minerInfo = miner;
+
 					if (this.miner.serverId != result.minerInfo.getServerId()) {
 						Dal.log(Errors.UNEXPECTED_SERVER_ID, "Expected server id:" + this.miner.serverId + ""
 								+ " but got: " + result.minerInfo.getServerId() + "at ip " + this.miner.address
 								+ " port " + this.miner.port);
 					}
+
+					Object o = ((JSONObject) json.get(Keys.SERVER_STATUS)).get(Keys.LOAD_AVG);
+					ArrayList<?> loadAvgs = (ArrayList<?>) o;
+					if (loadAvgs.size() == 3 && loadAvgs.get(1) instanceof Double) {
+						load = (Double) loadAvgs.get(1);
+
+					}
+
+					result.minerInfo.setLoadAvg((Float) load.floatValue());
+
+					uptime = ((Long) ((JSONObject) json.get(Keys.SERVER_STATUS)).get(Keys.UPTIME)).intValue();
+
+					result.minerInfo.setUptime(uptime);
 				}
 
 			}

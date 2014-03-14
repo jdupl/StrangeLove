@@ -11,8 +11,9 @@ public enum Errors {
 	MINER_REBOOTED(ErrorCodes.MINER_REBOOTED, LogLevels.INFO),
 	UNEXPECTED_SERVER_ID(ErrorCodes.UNEXPECTED_SERVER_ID, LogLevels.WARN),
 	RESPONSE_MISSING_KEY(ErrorCodes.RESPONSE_MISSING_KEY, LogLevels.ALERT),
+	SQL_ERROR(ErrorCodes.SQL_ERROR, LogLevels.ALERT),
 	UNKNOWN(ErrorCodes.UNKNOWN, LogLevels.EMERG);
-	
+
 
 	Errors(byte code, byte level) {
 		this.errorCode = code;

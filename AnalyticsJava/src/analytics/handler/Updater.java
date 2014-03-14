@@ -42,7 +42,7 @@ public class Updater implements Runnable {
 		for (GpuInfo info : apiData.gpusInfo) {
 			updateGpuInfo(info);
 		}
-		Dal.insertMinerInfo(apiData.minerInfo);
+		Dal.insertMinerInfo(apiData.minerInfo, apiData.timestamp);
 		return true;
 	}
 

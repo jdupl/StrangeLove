@@ -29,24 +29,9 @@ public class Core extends Thread implements Observer {
 	 * 
 	 * @return The list of servers to query
 	 */
-	public synchronized ArrayList<Miner> getMinerList() {
-		ArrayList<Miner> miners = new ArrayList<>();
-		Dal.getMinerList();
-		Miner m = new Miner();
-		m.serverId = 0;
-		m.address = "127.0.0.1";
-		m.port = 1337;
+	private synchronized ArrayList<Miner> getMinerList() {
 
-		miners.add(m);
-
-		Miner m2 = new Miner();
-		m2.serverId = 0;
-		m2.address = "127.0.0.1";
-		m2.port = 1338;
-
-		miners.add(m2);
-
-		return miners;
+		return Dal.getMinerList();
 	}
 
 	@Override
