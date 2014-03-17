@@ -70,13 +70,12 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `strangelove`.`users_units` ;
 
 CREATE TABLE IF NOT EXISTS `strangelove`.`users_units` (
-  `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `unit_id` INT NOT NULL,
-  `share` DECIMAL NOT NULL,
-  PRIMARY KEY (`id`),
+  `share` DECIMAL(3,2) NOT NULL,
   INDEX `fk_users_units_1_idx` (`user_id` ASC),
   INDEX `fk_users_units_unit_id_idx` (`unit_id` ASC),
+  PRIMARY KEY (`unit_id`, `user_id`),
   CONSTRAINT `fk_users_units_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `strangelove`.`users` (`id`)
