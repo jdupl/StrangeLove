@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import analytics.constants.Errors;
@@ -61,9 +62,9 @@ public class Dal {
 			ps.setString(4, message);
 			ps.execute();
 		} catch (SQLException e) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
 			System.err.printf("[%s] Could not log to mysql !"
-					+ " Error code: %d Log level: %d Orignal error message: %s Sql log exception : %s\n", sdf.toString(),
+					+ " Error code: %d Log level: %d Orignal error message: %s Sql log exception : %s\n", date,
 					code, level, message, e.getMessage());
 		}
 	}

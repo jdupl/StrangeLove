@@ -143,11 +143,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `strangelove`.`Log`
+-- Table `strangelove`.`log`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `strangelove`.`Log` ;
+DROP TABLE IF EXISTS `strangelove`.`log` ;
 
-CREATE TABLE IF NOT EXISTS `strangelove`.`Log` (
+CREATE TABLE IF NOT EXISTS `strangelove`.`log` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timestamp` MEDIUMTEXT NULL,
   `error_code` TINYINT NULL,
