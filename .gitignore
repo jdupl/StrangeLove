@@ -4,3 +4,4 @@ bin
 .classpath
 .settings
 /webui/nbproject/private/
+node_modules/
