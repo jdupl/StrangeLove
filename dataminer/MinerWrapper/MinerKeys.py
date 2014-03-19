@@ -10,8 +10,8 @@ class MinerKeys():
     MEM_CLOCK = "Memory Clock"
     FAN_RPM = "Fan Speed"
     HW_ERRORS = "Hardware Errors"
-    REJECTED = "Rejected"
-    ACCEPTED = "Accepted"
+    REJECTED = "Difficulty Rejected"
+    ACCEPTED = "Difficulty Accepted"
     CURRENT_HASH_RATE = "MHS 5s"
     INTENSITY = "Intensity"
 
