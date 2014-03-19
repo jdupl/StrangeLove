@@ -1,4 +1,9 @@
 <div ng-controller="devices">
     <p>Voici les cartes</p>
     <div ui-if="dataForGrid.length>0" ng-grid="gridOptions" ng-style="getTableStyle()" ></div>
+    <ul class="list-unstyled">
+        <li class="animate-repeat" ng-repeat="owner in mySelections[0].owners">
+            {{owner.name}} - {{owner.share}}
+        </li>
+    </ul>
 </div>

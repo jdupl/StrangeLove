@@ -1,0 +1,4 @@
+<div ng-controller="servers">
+    <p>Voici les serveurs</p>
+    <div ui-if="dataForGrid.length>0" ng-grid="gridOptions" ng-style="getTableStyle()" ></div>
+</div>
