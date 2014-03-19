@@ -17,11 +17,15 @@ class ServerInfo():
     def getLoadAvg(self):
         if not sys.platform.startswith('linux'):
             return [-1, -1, -1]
-        return os.getloadavg()  # TODO: test on a linux system the return of this method to split into an array
+        loadavgF = open("/proc/loadavg","r")
+        loadavg = loadavgF.read()
+        loadavgF .close()
+        loadavg = loadavg.split()
+        return [float(loadavg[0]), float(loadavg[1]), float(loadavg[2])]
 
 
     def getServerInfo(self):
-        return {CommonKeys.UPTIME : 12124, CommonKeys.LOAD_AVG : [0.12, 0.10, 0.05]}
+        return {CommonKeys.UPTIME : self.getUptime(), CommonKeys.LOAD_AVG : self.getLoadAvg()}
         # return {"uptime": self.getUptime(), 'load_avg':self.getLoagAvg()}
 
 
