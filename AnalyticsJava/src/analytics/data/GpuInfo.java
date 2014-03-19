@@ -42,8 +42,8 @@ public class GpuInfo {
 			this.memClock = ((Long) object.get(Keys.MEM_CLOCK)).intValue();
 			this.fanRpm = ((Long) object.get(Keys.FAN_RPM)).intValue();
 			this.hwErrors = ((Long) object.get(Keys.HW_ERRORS)).intValue();
-			this.sharesAccepted = ((Long) object.get(Keys.ACCEPTED)).intValue();
-			this.sharesRefused = ((Long) object.get(Keys.REJECTED)).intValue();
+			this.sharesAccepted = ((Double) object.get(Keys.ACCEPTED)).intValue();
+			this.sharesRefused = ((Double) object.get(Keys.REJECTED)).intValue();
 			this.currentHashRate = ((Long) object.get(Keys.CURRENT_HASH_RATE)).intValue();
 			this.intensity = ((Long) object.get(Keys.INTENSITY)).intValue();
 			this.timeSinceLastWork = ((Long) object.get(Keys.TIME_SINCE_LAST_WORK)).intValue();
