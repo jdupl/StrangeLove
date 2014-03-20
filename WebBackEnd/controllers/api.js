@@ -12,9 +12,12 @@ function apiError(res, msg) {
 var routes = {};
 
 routes.getCards = function (req, res) {
-    res.json({
-      cards: service.getCards()
-    });
+    service.getCards(res)
+}
+routes.getCardsSummary = function (req, res) {
+    startDate = req.params.startDate;
+    endDate= req.params.endDate;
+    service.getCardsSummary(startDate, endDate,res)
 }
 
 module.exports = routes;
