@@ -1,10 +1,11 @@
 {
-  "name": "strangelove-webbackend",
-  "version": "v0.0.0",
-  "private": true,
-  "dependencies": {
-    "express": "^3.4.8",
-    "mysql": "^2.1.1"
-  },
-  "main": "app.js"
+    "name": "strangelove-webbackend",
+    "version": "v0.0.0",
+    "private": true,
+    "dependencies": {
+        "express": "^3.4.8",
+        "mysql": "^2.1.1",
+        "knex": "^0.5.10"
+    },
+    "main": "app.js"
 }

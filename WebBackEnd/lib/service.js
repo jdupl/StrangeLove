@@ -1,27 +1,32 @@
 // service functions
 
 var mysql = require('mysql');
+var Knex = require('knex');
+//var knex = require('knex').knex;
 
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '123',
+var connProperties = {
+    host: 'localhost',
+    user: 'root',
+    password: '123',
     database: "strangelove"
+};
+
+var knex = Knex.initialize({
+    client: "mysql",
+    connection: connProperties
 });
 
-exports.getCards = function (res) {
-    connection.query('select * from units', function(err, rows) {
-        res.json({
-            cards: rows
-        });
+var connection = mysql.createConnection(connProperties);
+
+exports.getCards = function(cb) {
+    cards = [];
+    knex('units').select().then(function(card) {
+        cb({cards: card});
     });
 };
 
-exports.getCardsSummary = function (startDate, endDate, res) {
-connection.query("SELECT device_id, SUM(shares_since_last_record) as shares_valid, SUM(invalid_shares_since_last_record) as shares_invalid, AVG(hashrate) as hashrate FROM stats WHERE timestamp < " + endDate +" and timestamp > " + startDate +" GROUP BY device_id", function(err, rows) {
-        if(err) throw err;
-        res.json({
-            summary: rows
-        });
+exports.getCardsSummary = function(startDate, endDate, cb) {
+    connection.query("SELECT  device_id , SUM(shares_since_last_record) AS shares_valid, SUM(invalid_shares_since_last_record) AS shares_invalid , AVG(hashrate) AS hashrate , SUM(shares_since_last_record) / ( SELECT  SUM(shares_since_last_record) FROM stats WHERE timestamp between " + startDate + " AND " + endDate + ") * 100 as percentage FROM stats WHERE timestamp between " + startDate + " AND " + endDate + " GROUP BY device_id", function(err, rows) {
+        cb({summary: rows});
     });
 };

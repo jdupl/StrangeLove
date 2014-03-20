@@ -1,7 +1,8 @@
-var express = require('express')
-  , path = require('path')
-  , router = require('./router')
-  , mysql = require('mysql');
+var express = require('express'),
+        path = require('path'),
+        knex = require('knex'),
+        router = require('./router'),
+        mysql = require('mysql');
 // create app
 var app = express();
 
