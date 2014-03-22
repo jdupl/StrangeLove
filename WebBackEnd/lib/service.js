@@ -7,7 +7,7 @@ var Knex = require('knex');
 var connProperties = {
     host: 'localhost',
     user: 'root',
-    password: '123',
+    password: '',
     database: "strangelove"
 };
 
@@ -19,14 +19,33 @@ var knex = Knex.initialize({
 var connection = mysql.createConnection(connProperties);
 
 exports.getCards = function(cb) {
-    cards = [];
     knex('units').select().then(function(card) {
         cb({cards: card});
     });
 };
 
+/**
+ * Returns total invalid and valid shares for a period of time of all cards
+ */
+exports.getShares = function(startDate, endDate, cb) {
+    knex('stats').sum('shares_since_last_record as shares')
+            .sum('invalid_shares_since_last_record as invalid_shares')
+            .whereBetween('timestamp', [startDate, endDate])
+            .then(function(info) {
+                cb({poolInfo: info});
+            });
+};
+
 exports.getCardsSummary = function(startDate, endDate, cb) {
-    connection.query("SELECT  device_id , SUM(shares_since_last_record) AS shares_valid, SUM(invalid_shares_since_last_record) AS shares_invalid , AVG(hashrate) AS hashrate , SUM(shares_since_last_record) / ( SELECT  SUM(shares_since_last_record) FROM stats WHERE timestamp between " + startDate + " AND " + endDate + ") * 100 as percentage FROM stats WHERE timestamp between " + startDate + " AND " + endDate + " GROUP BY device_id", function(err, rows) {
-        cb({summary: rows});
-    });
+    knex('stats')
+            .select('device_id', 'model')
+            .join('units', 'units.id', '=', 'stats.device_id')
+            .sum('shares_since_last_record as shares')
+            .sum('invalid_shares_since_last_record as invalid_shares')
+            .avg('hashrate as hashrate')
+            .whereBetween('timestamp', [startDate, endDate])
+            .groupBy('device_id')
+            .then(function(info) {
+                cb(info);
+            });
 };
