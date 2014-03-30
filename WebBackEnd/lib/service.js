@@ -7,7 +7,7 @@ var Knex = require('knex');
 var connProperties = {
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: '123',
     database: "strangelove"
 };
 

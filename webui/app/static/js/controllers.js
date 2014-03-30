@@ -3,14 +3,10 @@
 /* Controllers */
 
 angular.module('strangelove.controllers', []).
-        controller('devices', function($scope) {
+        controller('devices', function($scope, $http) {
 
             $scope.mySelections = [];
-
-            $scope.devices = [
-                {'id': '1', 'model': 'R9 270x', 'hashrate': '470', 'validShares': '1500', 'invalidShares': '10', 'owners': [{'name': 'Justin', 'share': '100%'}]},
-                {'id': '2', 'model': 'R9 280x', 'hashrate': '760', 'validShares': '3500', 'invalidShares': '15', 'owners': [{'name': 'Félix', 'share': '25%'}, {'name': 'Maxime', 'share': '25%'}, {'name': 'Simon', 'share': '25%'}, {'name': 'Guillaume', 'share': '25%'}]}
-            ];
+            $scope.devices = [];
 
             $scope.gridOptions = {
                 data: 'devices',
@@ -31,6 +27,21 @@ angular.module('strangelove.controllers', []).
                     height: ($scope.devices.length * rowHeight + headerHeight) + "px"
                 };
             };
+
+            function refresh() {
+                 $http({method: 'GET', url: 'http://localhost:3000/summary/1394472905'})
+                     .success(function(data, status, headers, config) {
+                            $scope.devices = data.devices;
+                            console.log("success");
+                     })
+                     .error(function(data, status, headers, config) {
+                            console.log(JSON.stringify(status));
+                            console.log(JSON.stringify(data));
+                            console.log("erreur");
+                     });
+            }
+            
+            refresh();
         })
         .controller('servers', function($scope) {
 
