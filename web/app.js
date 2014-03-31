@@ -10,6 +10,7 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(mysql);
+app.use(express.static(__dirname + '/app'));
 
 // pass the application to the router so it can create routes
 router(app);

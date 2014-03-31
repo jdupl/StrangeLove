@@ -1,0 +1,43 @@
+<div>
+    <h2>Voici les cartes</h2>
+    <div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>Date de début: {{status.start_date_str}}</p>
+            <p>Date de fin: {{status.end_date_str}}</p>
+        </div>
+        <div class="col-md-4">
+            <button ng-click="setLastDays(1 * 0.041666667);">
+                Dernière heure
+            </button>
+            <button ng-click="setLastDays(1);">
+                Dernières 24heures
+            </button>
+            <button ng-click="setLastDays(7);">
+                Dernière semaine
+            </button>
+            <button ng-click="setLastDays(31);">
+                Derniers 31 jours
+            </button>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+    <div ui-if="dataForGrid.length>0" ng-grid="gridOptions" ng-style="getTableStyle()" ></div>
+    <ul class="list-unstyled">
+        <li class="animate-repeat" ng-repeat="owner in mySelections[0].owners">
+            {{owner.name}} - {{owner.share}}
+        </li>
+    </ul>
+    <div class="row">
+        Totals: 
+    </div>
+</div>

@@ -64,12 +64,9 @@ routes.getCardsSummary = function(req, res) {
         totals.reject_ratio = totals.invalid_shares / totals.shares * 100;
 
         endMs = Date.now();
-
-        status.ms = endMs -startMs;
-//        res.json({total: totals, devices: devices, status: status});
-
-        //BROKEN
-        res.send(200, JSON.stringify({total: totals, devices: devices, status: status}));
+        status.ms = endMs - startMs;
+        
+        res.json({total: totals, devices: devices, status: status});
     });
 };
 
