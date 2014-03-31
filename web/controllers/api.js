@@ -33,6 +33,13 @@ routes.getCards = function(req, res) {
 //  // TODO
 //};
 
+routes.getCardsLastest = function(req, res){
+
+    service.getCardsLastest(function(devices){
+      res.json(devices);
+  });
+};
+
 routes.getCardsSummary = function(req, res) {
 
     startMs = Date.now();
@@ -65,7 +72,7 @@ routes.getCardsSummary = function(req, res) {
 
         endMs = Date.now();
         status.ms = endMs - startMs;
-        
+
         res.json({total: totals, devices: devices, status: status});
     });
 };

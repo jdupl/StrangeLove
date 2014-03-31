@@ -9,3 +9,4 @@ node_modules/
 WebBackEnd/nbproject/project.properties
 WebBackEnd/nbproject/project.xml
 /nbproject/private/
+npm-debug.log

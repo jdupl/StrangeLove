@@ -49,3 +49,22 @@ exports.getCardsSummary = function(startDate, endDate, cb) {
                 cb(info);
             });
 };
+
+/**
+* Get lastest record for each card
+*/
+exports.getCardsLastest = function(cb){
+    connection.query('SELECT  c.* ' +
+                      'FROM units a ' +
+                      'INNER JOIN stats c ON a.id = c.device_id ' +
+                      'INNER JOIN ( SELECT device_id , '+
+                      'MAX(timestamp) maxDate ' +
+                      'FROM   stats ' +
+                      'GROUP BY device_id ' +
+                      ') b ON c.device_id = b.device_id ' +
+                      'AND c.timestamp = b.maxDate ',
+                     function(err, info){
+                       cb({devices: info});
+
+    });
+};
